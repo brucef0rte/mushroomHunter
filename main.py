@@ -45,26 +45,28 @@ Mushroom:
 '''
 # Create our Player Class
 class Player:
-    def __init__(self, hp, isPoisoned = False, hadVision = False):
+    def __init__(self, hp=10, isPoisoned = False, hadVision = False):
         self.hp = hp
         self.isPoisoned = isPoisoned
         self.hadVision = hadVision
+        self.mushrooms = []
 
-    def searchForMushroom():
-        pass
-
+    def searchForMushroom(self):
+        self.mushrooms = [Mushroom() for _ in range(3)]
 # Create Mushroom class
 class Mushroom:
-    color = ["blue", "green", "cyan", "spotted grey"]
+    colors = ["blue", "green", "cyan", "spotted grey"]
     shapes = ["bell", "hexagonal", "translucent", "bulbous", "square"]
+    names1 = ["destroying", "memsmerizing", "sickening", "delectable"]
+    names2 = ["angel", "puppy", "catgirl", "oyster", "magic", "shiitake"]
     def __init__(self):
-        self.name = "foobar"
+        self.name = random.choice(self.names1) + " " + random.choice(self.names2)
         self.isHealthy = random.choice([True, False])
         self.isPoisoin = random.choice([True, False])
         self.isPsychedelic = random.choice([True, False])
-        self.color = self.color[random.randint(0,len(self.color) - 1)]
-        self.shape = self.shapes[random.randint(0,len(self.shapes) - 1)]
-        self.appearance = f"A {self.color} colored, {self.shape} shaped mushroom"
+        self.color = random.choice(self.colors)
+        self.shape = random.choice(self.shapes)
+        self.appearance = f"a {self.color} colored, {self.shape} shaped mushroom"
     def __repr__(self):
         object = f"this mushroom is called {self.name}.\n"
         object += f"it looks like a {self.appearance} mushroom.\n"
@@ -75,6 +77,18 @@ class Mushroom:
         if self.isPsychedelic == True:
             object += f"It is psychedelic :)\n"
         return object
+    def isPoisonous(self):
+        if self.isPoisoin == True:
+            player.isPoisoned = True
 
-mushroom = Mushroom()
-print(mushroom)
+    def isHealthy(self):
+        if self.isHealthy == True:
+            player.hp += 1
+
+    def isPsychedelic(self):
+        if self.isPsychedelic == True:
+            player.hp += 1
+            player.hadVision = True
+player = Player()
+player.searchForMushroom()
+print(player.mushrooms[0])
