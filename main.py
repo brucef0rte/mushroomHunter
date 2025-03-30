@@ -75,6 +75,17 @@ class Player:
         for i, mushroom in enumerate(self.mushrooms):
             print(f"Mushroom {i+1}:")
             print(mushroom)
+    
+    def pickMushroom(self):
+        self.choice = input("Which mushroom would you like to try A, B, C? ")
+        if self.choice == "A":
+            self.eatMushroom(self.mushrooms[0])
+        elif self.choice == "B":
+            self.eatMushroom(self.mushrooms[1])
+        elif self.choice == "C":
+            self.eatMushroom(self.mushrooms[2])
+        else:
+            print("Invalid choice. Please pick A, B, or C.")
 
     def eatMushroom(self, mushroom):
         if mushroom.isHealthy == True:
@@ -93,6 +104,7 @@ class Player:
             print(f"You feel a rush of energy and your poison is cured!")
         else:
             print("You ate a regular mushroom. Nothing happened.")
+        print(f"Current HP: {self.hp} / 10")
 
 # Create Mushroom class
 class Mushroom:
@@ -123,6 +135,7 @@ class Mushroom:
             player.isPoisoned = True
 
 player = Player()
-player.searchForMushroom()
-player.eatMushroom(random.choice(player.mushrooms))
-print(player)
+while player.hp > 0:
+    player.searchForMushroom()
+    player.pickMushroom()
+    print(player.hp)
