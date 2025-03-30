@@ -53,6 +53,25 @@ class Player:
 
     def searchForMushroom(self):
         self.mushrooms = [Mushroom() for _ in range(3)]
+
+    def eatMushroom(self, mushroom):
+        if mushroom.isHealthy == True:
+            print(f"You ate the {mushroom.name} and it was healthy!")
+            self.isHealthy = True
+            self.hp += 1
+        elif mushroom.isPoisoin == True:
+            print(f"You ate the {mushroom.name} and it was poisonous!")
+            self.isPoisoned = True
+            self.hp -= 1
+        elif mushroom.isPsychedelic == True:
+            print(f"You ate the {mushroom.name} and it was psychedelic!")
+            self.hadVision = True
+            self.isPoisoned = False
+            self.hp += 1
+            print(f"You feel a rush of energy and your poison is cured!")
+        else:
+            print("You ate a regular mushroom. Nothing happened.")
+
 # Create Mushroom class
 class Mushroom:
     colors = ["blue", "green", "cyan", "spotted grey"]
@@ -81,14 +100,6 @@ class Mushroom:
         if self.isPoisoin == True:
             player.isPoisoned = True
 
-    def isHealthy(self):
-        if self.isHealthy == True:
-            player.hp += 1
-
-    def isPsychedelic(self):
-        if self.isPsychedelic == True:
-            player.hp += 1
-            player.hadVision = True
 player = Player()
 player.searchForMushroom()
-print(player.mushrooms[0])
+player.eatMushroom(player.mushrooms[0])
