@@ -51,8 +51,30 @@ class Player:
         self.hadVision = hadVision
         self.mushrooms = []
 
+    def __str__(self):
+        object = f"Your HP is {self.hp}.\n"
+        if self.isPoisoned == True:
+            object += f"You are poisoned.\n"
+        if self.hadVision == True:
+            object += f"You had a vision.\n"
+        if self.hp <= 0:
+            object += f"You are dead.\n"
+        elif self.hp > 0 and self.hp <= 5:
+            object += "You're knocking on death's door.\n"
+        elif self.hp > 5 and self.hp <= 8:
+            object += "You're in good shape.\n"
+        elif self.hp > 8 and self.hp <= 10:
+            object += "You're in great shape.\n"
+        else:
+            object += "You're in perfect shape.\n"
+        return object
+    # generate 3 mushrooms for our player to pick from
     def searchForMushroom(self):
         self.mushrooms = [Mushroom() for _ in range(3)]
+        print("You found 3 mushrooms!")
+        for i, mushroom in enumerate(self.mushrooms):
+            print(f"Mushroom {i+1}:")
+            print(mushroom)
 
     def eatMushroom(self, mushroom):
         if mushroom.isHealthy == True:
@@ -86,7 +108,7 @@ class Mushroom:
         self.color = random.choice(self.colors)
         self.shape = random.choice(self.shapes)
         self.appearance = f"a {self.color} colored, {self.shape} shaped mushroom"
-    def __repr__(self):
+    def __str__(self):
         object = f"this mushroom is called {self.name}.\n"
         object += f"it looks like a {self.appearance} mushroom.\n"
         if self.isHealthy == True:
@@ -102,4 +124,5 @@ class Mushroom:
 
 player = Player()
 player.searchForMushroom()
-player.eatMushroom(player.mushrooms[0])
+player.eatMushroom(random.choice(player.mushrooms))
+print(player)
