@@ -1,4 +1,5 @@
 import random
+import os
 '''
 Mushroom Hunter Game
 Practice for Codecademy "Learn Object Oriented Programming with Python" class
@@ -52,7 +53,7 @@ class Player:
         self.mushrooms = []
 
     def __str__(self):
-        object = f"Your HP is {self.hp}.\n"
+        object = f"Your HP is {self.hp}. "
         if self.isPoisoned == True:
             object += f"You are poisoned.\n"
         if self.hadVision == True:
@@ -70,14 +71,19 @@ class Player:
         return object
     # generate 3 mushrooms for our player to pick from
     def searchForMushroom(self):
+        if self.hp > 10:
+            self.hp = 10
+        print(self)
+        if self.isPoisoned:
+            self.hp -= 1
+            print(f"Oof. The poison rends your tummy for -1 hp.\n Current HP: {self.hp} / 10")
         self.mushrooms = [Mushroom() for _ in range(3)]
         print("You found 3 mushrooms!")
         for i, mushroom in enumerate(self.mushrooms):
-            print(f"Mushroom {i+1}:")
             print(mushroom)
     
     def pickMushroom(self):
-        self.choice = input("Which mushroom would you like to try A, B, C? ")
+        self.choice = input("Which mushroom would you like to try A, B, C? ").upper()
         if self.choice == "A":
             self.eatMushroom(self.mushrooms[0])
         elif self.choice == "B":
@@ -88,23 +94,24 @@ class Player:
             print("Invalid choice. Please pick A, B, or C.")
 
     def eatMushroom(self, mushroom):
-        if mushroom.isHealthy == True:
-            print(f"You ate the {mushroom.name} and it was healthy!")
+        if mushroom.isNeutral == True:
+            print(f"You ate the {mushroom.name} and it was fine. Nothing happened.\n\n")
             self.isHealthy = True
-            self.hp += 1
         elif mushroom.isPoisoin == True:
-            print(f"You ate the {mushroom.name} and it was poisonous!")
+            print(f"You ate the {mushroom.name} and it was poisonous!\n\n")
             self.isPoisoned = True
             self.hp -= 1
         elif mushroom.isPsychedelic == True:
-            print(f"You ate the {mushroom.name} and it was psychedelic!")
+            print(f"You ate the {mushroom.name} and it was psychedelic!\n\n")
             self.hadVision = True
+            if self.isPoisoned == True:
+                print("You feel the poison leaving your body.\n")
             self.isPoisoned = False
-            self.hp += 1
-            print(f"You feel a rush of energy and your poison is cured!")
         else:
-            print("You ate a regular mushroom. Nothing happened.")
-        print(f"Current HP: {self.hp} / 10")
+            print("You ate a regular mushroom. Nothing happened.\n\n")
+        if self.hp <= 0:
+            print("you ded.")
+            exit
 
 # Create Mushroom class
 class Mushroom:
@@ -114,7 +121,7 @@ class Mushroom:
     names2 = ["angel", "puppy", "catgirl", "oyster", "magic", "shiitake"]
     def __init__(self):
         self.name = random.choice(self.names1) + " " + random.choice(self.names2)
-        self.isHealthy = random.choice([True, False])
+        self.isNeutral = random.choice([True, False])
         self.isPoisoin = random.choice([True, False])
         self.isPsychedelic = random.choice([True, False])
         self.color = random.choice(self.colors)
@@ -123,19 +130,18 @@ class Mushroom:
     def __str__(self):
         object = f"this mushroom is called {self.name}.\n"
         object += f"it looks like a {self.appearance} mushroom.\n"
-        if self.isHealthy == True:
-            object += f"It is healthy.\n"
-        if self.isPoisoin == True:
-            object += f"It is poisonous.\n"
-        if self.isPsychedelic == True:
-            object += f"It is psychedelic :)\n"
+        # if self.isHealthy == True:
+        #     object += f"It is healthy.\n"
+        # if self.isPoisoin == True:
+        #     object += f"It is poisonous.\n"
+        # if self.isPsychedelic == True:
+        #     object += f"It is psychedelic :)\n"
         return object
-    def isPoisonous(self):
-        if self.isPoisoin == True:
-            player.isPoisoned = True
 
 player = Player()
 while player.hp > 0:
     player.searchForMushroom()
     player.pickMushroom()
-    print(player.hp)
+    if player.hp <= 0:
+        print("you ded.")
+        exit
